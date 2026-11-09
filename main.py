@@ -1,19 +1,23 @@
-from cell import Cell
 from graphics import Window
+from maze import Maze
 
 
-def main() -> None:
-    win = Window(800, 600)
+def main():
+    win = Window(1000, 700)
 
-    cell1 = Cell(win)
-    cell1.draw(0, 0, 50, 50)
+    maze = Maze(
+        25,
+        25,
+        20,     # 20 rows
+        30,     # 30 columns
+        25,     # Cell width
+        25,     # Cell height
+        win
+    )
 
-    cell2 = Cell(win)
-    cell2.draw(50, 0, 100, 50)
+def __animate(self) -> None:
+    self.__win.redraw()
+    time.sleep(0.05)
 
-    cell1.draw_move(cell2, undo=True)
-
-    win.wait_for_close()
-
-
-main()
+if __name__ == "__main__":
+    main()
