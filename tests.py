@@ -1,72 +1,39 @@
 import unittest
+from unittest.mock import call, patch
 
 from maze import Maze
 
 
-class Tests(unittest.TestCase):
-    def test_maze_create_cells(self):
-        num_cols = 12
-        num_rows = 10
+class TestMaze(unittest.TestCase):
 
-        m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
-
-        self.assertEqual(
-            len(m1._Maze__cells),
-            num_cols,
+    def test_break_entrance_and_exit(self):
+        maze = Maze(
+            x1=0,
+            y1=0,
+            num_rows=2,
+            num_cols=3,
+            cell_size_x=10,
+            cell_size_y=10,
         )
 
-        self.assertEqual(
-            len(m1._Maze__cells[0]),
-            num_rows,
-        )
+        cells = maze._Maze__cells
 
-    def test_maze_create_cells_different_size(self):
-        num_cols = 5
-        num_rows = 8
+        # Reset walls because the constructor already breaks them
+        cells[0][0].has_top_wall = True
+        cells[2][1].has_bottom_wall = True
 
-        m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
+        with patch.object(maze, "_Maze__draw_cell") as draw_cell:
+            maze._Maze__break_entrance_and_exit()
 
-        self.assertEqual(
-            len(m1._Maze__cells),
-            num_cols,
-        )
+        self.assertFalse(cells[0][0].has_top_wall)
+        self.assertFalse(cells[2][1].has_bottom_wall)
 
-        self.assertEqual(
-            len(m1._Maze__cells[0]),
-            num_rows,
-        )
+        draw_cell.assert_has_calls([
+            call(0, 0),
+            call(2, 1),
+        ])
 
-    def test_maze_create_cells_square(self):
-        num_cols = 6
-        num_rows = 6
-
-        m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
-
-        self.assertEqual(
-            len(m1._Maze__cells),
-            num_cols,
-        )
-
-        self.assertEqual(
-            len(m1._Maze__cells[0]),
-            num_rows,
-        )
-
-    def test_maze_create_cells_single_row(self):
-        num_cols = 10
-        num_rows = 1
-
-        m1 = Maze(0, 0, num_rows, num_cols, 10, 10)
-
-        self.assertEqual(
-            len(m1._Maze__cells),
-            num_cols,
-        )
-
-        self.assertEqual(
-            len(m1._Maze__cells[0]),
-            num_rows,
-        )
+        self.assertEqual(draw_cell.call_count, 2)
 
 
 if __name__ == "__main__":

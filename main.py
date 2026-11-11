@@ -3,19 +3,19 @@ from maze import Maze
 
 
 def main():
-    win = Window(1000, 700)
+    win = Window(800, 600)
 
+    # Create a 10x10 maze
     Maze(
-        25,
-        25,
-        20,     # 20 rows
-        30,     # 30 columns
-        25,     # Cell width
-        25,     # Cell height
+        x1=50,
+        y1=50,
+        num_rows=10,
+        num_cols=10,
+        cell_size_x=50,
+        cell_size_y=50,
         win=win,
     )
 
-    # Keep the window open until the user closes it
     win.wait_for_close()
 
 
