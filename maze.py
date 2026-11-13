@@ -34,6 +34,7 @@ class Maze:
         self.__create_cells()
         self.__break_entrance_and_exit()
         self.__break_walls_r(0, 0)
+        self.__reset_cells_visited()
 
     def __create_cells(self) -> None:
         # Create columns containing rows
@@ -138,3 +139,8 @@ class Maze:
 
             # Recursively explore the chosen cell
             self.__break_walls_r(next_i, next_j)
+
+    def __reset_cells_visited(self) -> None:
+        for column in self.__cells:
+            for cell in column:
+                cell.visited = False

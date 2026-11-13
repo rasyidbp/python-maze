@@ -35,6 +35,24 @@ class TestMaze(unittest.TestCase):
 
         self.assertEqual(draw_cell.call_count, 2)
 
+    def test_reset_cells_visited(self):
+        maze = Maze(0, 0, 3, 3, 10, 10)
+
+        cells = maze._Maze__cells
+
+        # Mark every cell as visited
+        for column in cells:
+            for cell in column:
+                cell.visited = True
+
+        # Reset visited properties
+        maze._Maze__reset_cells_visited()
+
+        # Verify every cell was reset
+        for column in cells:
+            for cell in column:
+                self.assertFalse(cell.visited)
+
 
 if __name__ == "__main__":
     unittest.main()
